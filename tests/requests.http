@@ -1,0 +1,33 @@
+### Petición para registrar un usuario
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "username": "john",
+  "password": "mypassword"
+}
+
+### Petición para iniciar sesión
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "12345"
+}
+
+### Petición para crear un evento
+POST http://localhost:3000/api/events/
+Content-Type: application/json
+
+{
+  "title": "Concert",
+  "description": "A live concert event.",
+  "date": "2024-12-25"
+}
+
+### Petición para obtener eventos
+GET http://localhost:3000/api/events/
+
+### Obtener usuarios
+GET http://localhost:3000/api/users/

@@ -7,6 +7,24 @@ Content-Type: application/json
   "password": "mypassword"
 }
 
+### Obtener usuarios
+GET http://localhost:3000/api/users/
+
+### Petición para obtener un usuario
+GET http://localhost:3000/api/users/1
+
+### Petición para actualizar un usuario
+PUT http://localhost:3000/api/users/1
+Content-Type: application/json
+
+{
+  "username": "john_updated",
+  "password": "newpassword"
+}
+
+### Petición para eliminar un usuario
+DELETE http://localhost:3000/api/users/1
+
 ### Petición para iniciar sesión
 POST http://localhost:3000/api/users/login
 Content-Type: application/json
@@ -29,5 +47,16 @@ Content-Type: application/json
 ### Petición para obtener eventos
 GET http://localhost:3000/api/events/
 
-### Obtener usuarios
-GET http://localhost:3000/api/users/
+### Petición para actualizar un evento
+PUT http://localhost:3000/api/events/1
+Content-Type: application/json
+
+{
+  "title": "Updated Concert",
+  "description": "An updated live concert event.",
+  "date": "2024-12-26"
+}
+
+### Petición para eliminar un evento
+DELETE http://localhost:3000/api/events/1
+

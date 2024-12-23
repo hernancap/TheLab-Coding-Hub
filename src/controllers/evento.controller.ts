@@ -34,3 +34,41 @@ export const createEvent = (req: Request, res: Response): void => {
 export const getEvents = (req: Request, res: Response): void => {
     res.status(200).json(events);
 };
+
+export const updateEvent = (req: Request, res: Response): void => {
+    const { id } = req.params;
+    const { title, description, date } = req.body;
+
+    const event = events.find(event => event.id === parseInt(id));
+
+    if (!event) {
+        res.status(404).json({ message: 'Evento no encontrado' });
+        return;
+    }
+
+    if (!title || !description || !date) {
+        res.status(400).json({ message: 'Todos los campos son requeridos' });
+        return;
+    }
+
+    event.title = title;
+    event.description = description;
+    event.date = date;
+
+    res.status(200).json({ message: `Evento "${title}" actualizado!`, event });
+};
+
+export const deleteEvent = (req: Request, res: Response): void => {
+    const { id } = req.params;
+
+    const eventIndex = events.findIndex(event => event.id === parseInt(id));
+
+    if (eventIndex === -1) {
+        res.status(404).json({ message: 'Evento no encontrado' });
+        return;
+    }
+
+    const deletedEvent = events.splice(eventIndex, 1);
+
+    res.status(200).json({ message: `Evento "${deletedEvent[0].title}" eliminado!` });
+};

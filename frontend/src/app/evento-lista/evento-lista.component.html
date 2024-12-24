@@ -1,0 +1,17 @@
+<div>
+    <h1>Lista de Eventos:</h1>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  
+    <ul *ngIf="events && events.length > 0; else noEventos">
+      <li *ngFor="let event of events">
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.description }}</p>
+        <p><strong>Fecha:</strong> {{ event.date }}</p>
+      </li>
+    </ul>
+  
+    <ng-template #noEventos>
+      <p>No hay eventos disponibles.</p>
+    </ng-template>
+  </div>
+  

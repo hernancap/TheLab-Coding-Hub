@@ -60,3 +60,5 @@ Content-Type: application/json
 ### Petición para eliminar un evento
 DELETE http://localhost:3000/api/events/1
 
+### Obtener un evento
+GET http://localhost:3000/api/events/1

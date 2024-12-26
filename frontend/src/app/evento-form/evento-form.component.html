@@ -1,1 +1,33 @@
-<p>evento-form works!</p>
+<div>
+  <h1>{{ isEditing ? 'Editar Evento' : 'Crear Evento' }}</h1>
+
+  <form [formGroup]="eventoForm" (ngSubmit)="onSubmit()" class="evento-form-grid">
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre:</mat-label>
+      <input matInput id="title" formControlName="title" type="text" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción:</mat-label>
+      <textarea matInput id="description" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha:</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" id="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker" class="custom-datepicker-toggle"></mat-datepicker-toggle>
+      <mat-datepicker #picker panelClass="custom-datepicker-theme"></mat-datepicker>
+    </mat-form-field>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <div class="form-buttons">
+      <button mat-raised-button type="submit" [disabled]="eventoForm.invalid">
+        {{ isEditing ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+    </div>
+  </form>
+</div>

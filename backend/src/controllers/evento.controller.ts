@@ -31,7 +31,7 @@ export const createEvent = (req: Request, res: Response): void => {
     res.status(201).json({ message: `Evento "${title}" creado!`, event: newEvent });
 };
 
-export const getEvents = (req: Request, res: Response): void => {
+export const getAllEvents = (req: Request, res: Response): void => {
     res.status(200).json(events);
 };
 
@@ -72,3 +72,17 @@ export const deleteEvent = (req: Request, res: Response): void => {
 
     res.status(200).json({ message: `Evento "${deletedEvent[0].title}" eliminado!` });
 };
+
+export const getEvent = (req: Request, res: Response): void => {
+    const { id } = req.params;
+
+    const event = events.find(event => event.id === parseInt(id));
+
+    if (!event) {
+        res.status(404).json({ message: 'Evento no encontrado' });
+        return;
+    }
+
+    res.status(200).json(event);
+};
+

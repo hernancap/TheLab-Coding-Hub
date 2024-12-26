@@ -1,0 +1,35 @@
+.evento-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 3fr; 
+  gap: 20px; 
+  align-items: start; 
+}
+
+.mat-form-field {
+  grid-column: span 2; 
+}
+
+textarea {
+  resize: none; 
+}
+
+button {
+  margin-right: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+mat-label {
+  color: white !important;
+  font-size: 16px; 
+}
+
+.form-buttons {
+  grid-column: 1 / span 1;
+  align-self: end; 
+  margin-top: 20px; 
+}

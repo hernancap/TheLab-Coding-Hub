@@ -12,8 +12,6 @@ export class UsuarioService {
     this.url = environment.api;
   }
 
-  
-
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.url}/users/login`, { username, password });
   }
@@ -25,4 +23,5 @@ export class UsuarioService {
   getAllUsers(): Observable<any> {
     return this.http.get(this.url);
   }
+
 }

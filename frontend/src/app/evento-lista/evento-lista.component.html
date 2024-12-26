@@ -1,17 +1,33 @@
 <div>
-    <h1>Lista de Eventos:</h1>
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  <h1>Lista de Eventos:</h1>
+  <button (click)="navigateToAddEvent()" class="add-event-button">Agregar Evento</button>
   
-    <ul *ngIf="events && events.length > 0; else noEventos">
-      <li *ngFor="let event of events">
-        <h2>{{ event.title }}</h2>
-        <p>{{ event.description }}</p>
-        <p><strong>Fecha:</strong> {{ event.date }}</p>
-      </li>
-    </ul>
-  
-    <ng-template #noEventos>
-      <p>No hay eventos disponibles.</p>
-    </ng-template>
-  </div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <table *ngIf="events && events.length > 0; else noEventos" class="event-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th style="width: 120px;">Fecha</th>
+        <th style="width: 150px;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of events">
+        <td>{{ event.title }}</td>
+        <td>{{ event.description }}</td>
+        <td>{{ event.date }}</td>
+        <td>
+          <button (click)="onEdit(event)">Editar</button>
+          <button (click)="onDelete(event)">Borrar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noEventos>
+    <p>No hay eventos disponibles.</p>
+  </ng-template>
+</div>
   

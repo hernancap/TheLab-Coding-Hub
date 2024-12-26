@@ -10,11 +10,11 @@ import { environment } from '../../environments/environment';
 export class EventoService {
   private url : string;
   constructor(private http: HttpClient) {
-    this.url = environment.api;
+    this.url = `${environment.api}/events`;
   }
 
   getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.url}/events`);
+    return this.http.get<Event[]>(this.url);
   }
 
   createEvent(event: Event): Observable<any> {
@@ -27,5 +27,9 @@ export class EventoService {
 
   deleteEvent(id: number): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);
+  }
+
+  getEventById(id: number): Observable<Event> {
+    return this.http.get<Event>(`${this.url}/${id}`);
   }
 }

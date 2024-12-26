@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #000000c9; 
+  font-family: 'Roboto', sans-serif;
+}
+
+.mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: #3cd5cb;
+}
+
+h1 {
+  color: #3cd5cb; 
+}

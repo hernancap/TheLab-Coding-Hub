@@ -7,12 +7,10 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   template: `
     <div>
-      <h1>{{ title }}</h1>
       <router-outlet></router-outlet>
     </div>
   `,
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'frontend';
 }

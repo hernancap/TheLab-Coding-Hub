@@ -11,14 +11,18 @@
 }
 
 .event-table th {
-  background-color: #3cd5cb; 
+  background-color: #3cd5cb;
   font-weight: bold;
-  color: rgb(0, 0, 0); 
+  color: rgb(0, 0, 0);
 }
 
 .event-table td {
-  background-color: #b7b7b7; 
+  background-color: #b7b7b7;
 }
+
+.event-table tr:hover td {
+    background-color: #baf7ff; 
+  }
 
 .event-table th:nth-child(3),
 .event-table td:nth-child(3) {
@@ -34,12 +38,12 @@
 }
 
 .event-table button:first-of-type {
-  background-color: #4CAF50; 
+  background-color: #4CAF50;
   color: white;
 }
 
 .event-table button:last-of-type {
-  background-color: #f44336; 
+  background-color: #f44336;
   color: white;
 }
 
@@ -57,4 +61,3 @@
 .add-event-button:hover {
   background-color: #45a049;
 }
-

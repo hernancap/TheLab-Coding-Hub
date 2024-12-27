@@ -1,35 +1,76 @@
 .evento-form-grid {
   display: grid;
-  grid-template-columns: 1fr 3fr; 
-  gap: 20px; 
-  align-items: start; 
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
-.mat-form-field {
-  grid-column: span 2; 
-}
-
-textarea {
-  resize: none; 
-}
-
-button {
-  margin-right: 10px;
-}
-
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-mat-label {
-  color: white !important;
-  font-size: 16px; 
+@media (min-width: 768px) {
+  .evento-form-grid {
+    grid-template-columns: 1fr 2fr;
+  }
 }
 
 .form-buttons {
-  grid-column: 1 / span 1;
-  align-self: end; 
-  margin-top: 20px; 
+  grid-column: 1 / 2;
+  justify-self: start;
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+button[mat-raised-button]{
+  border: 1px solid #3cd5cb;
+  color: white;
+  background-color: #2a2a2a;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button[mat-raised-button]:hover{
+  background-color: #3cd5cb;
+  color: black;
+}
+
+button[mat-button] {
+  border: 1px solid #ff8181;
+  color: white;
+  background-color: #2a2a2a;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button[mat-button]:hover {
+  background-color: #ff8181;
+  color: black;
+}
+
+.error-message {
+  color: #ff4c4c;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+::ng-deep mat-form-field {
+  color: white !important;
+}
+
+::ng-deep .mat-mdc-icon-button {
+  --mdc-icon-button-icon-color: #3cd5cb;
+}
+
+::ng-deep .mat-calendar {
+  background-color: #3cd5cb  !important;
+}
+
+::ng-deep .mat-calendar-body-cell {
+  color: black !important;
+}
+
+::ng-deep mat-label {
+  color: #3cd5cb !important;
 }

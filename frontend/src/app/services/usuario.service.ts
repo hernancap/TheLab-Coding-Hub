@@ -9,11 +9,11 @@ import { environment } from '../../environments/environment';
 export class UsuarioService {
   private url : string;
   constructor(private http: HttpClient) {
-    this.url = environment.api;
+    this.url = `${environment.api}/users`;
   }
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.url}/users/login`, { username, password });
+    return this.http.post(`${this.url}/login`, { username, password });
   }
 
   register(username: string, password: string): Observable<any> {

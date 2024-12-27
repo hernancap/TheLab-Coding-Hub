@@ -1,33 +1,40 @@
 <div class="login-container">
-    <h2>Login</h2>
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          [(ngModel)]="username"
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Usuario</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input 
+          matInput 
+          type="text" 
+          id="username" 
+          name="username" 
+          [(ngModel)]="username" 
           required
         />
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          [(ngModel)]="password"
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-icon matPrefix>lock</mat-icon>
+        <mat-label>Contraseña</mat-label>
+        <input 
+          matInput 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password" 
           required
         />
-      </div>
-  
-      <button type="submit" [disabled]="!loginForm.valid">Login</button>
+      </mat-form-field>
+
+      <button class="login-button" mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">
+        Ingresar
+      </button>
     </form>
 
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
     </div>
-  </div>
-  
+  </mat-card>
+</div>

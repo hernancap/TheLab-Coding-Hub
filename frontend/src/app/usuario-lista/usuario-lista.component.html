@@ -1,0 +1,34 @@
+<div class="usuario-lista-container">
+    <h1>Lista de Usuarios:</h1>
+    
+    <button (click)="navigateToAddUser()" class="add-user-button">Agregar Usuario</button>
+    
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    
+    <table *ngIf="users && users.length > 0; else noUsuarios" class="usuario-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Rol</th>
+          <th style="width: 150px;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <button (click)="onEdit(user)">Editar</button>
+            <button (click)="onDelete(user)">Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <ng-template #noUsuarios>
+      <p>No hay usuarios disponibles.</p>
+    </ng-template>
+  </div>
+  

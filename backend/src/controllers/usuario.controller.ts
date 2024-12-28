@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
 
 const users = [
-    { id: 1, username: 'admin', password: '12345', role: 'admin' },
+    { id: 1, username: 'admin', password: '123456', email: 'test@test.com', role: 'admin' },
 ];
 
 export const registerUser = (req: Request, res: Response): void => {
-    const { username, password, role = 'user' } = req.body;
+    const { username, password, email, role = 'user' } = req.body;
 
     if (!username || !password) {
         res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
         return;
     }
     
-    users.push({ id: users.length + 1, username, password, role });
+    users.push({ id: users.length + 1, username, email, password, role });
     res.status(201).json({ message: `Usuario ${username} registrado!` });
 };
 
@@ -55,7 +55,7 @@ export const getUser = (req: Request, res: Response): void => {
 
 export const updateUser = (req: Request, res: Response): void => {
     const { id } = req.params;
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
     const user = users.find(u => u.id === parseInt(id));
 
     if (!user) {
@@ -65,6 +65,7 @@ export const updateUser = (req: Request, res: Response): void => {
 
     user.username = username || user.username;
     user.password = password || user.password;
+    user.email = email || user.email;
 
     res.status(200).json({ message: `Usuario ${id} actualizado!` });
 };

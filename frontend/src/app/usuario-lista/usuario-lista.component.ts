@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../services/usuario.service';
 import { User } from '../model/usuario';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario-lista',
@@ -14,7 +15,7 @@ export class UsuarioListaComponent implements OnInit {
   users: User[] = [];
   errorMessage = '';
 
-  constructor(private userService: UsuarioService) {}
+  constructor(private userService: UsuarioService, private router: Router) {}
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe({
@@ -27,15 +28,27 @@ export class UsuarioListaComponent implements OnInit {
   }
 
   navigateToAddUser(): void {
-    console.log('Navegar a agregar usuario');
+    this.router.navigate([`/users/add`]);
   }
 
   onEdit(user: User): void {
-    console.log('Editar usuario:', user);
+    this.router.navigate([`/users/edit`, user.id]);
   }
 
   onDelete(user: User): void {
-    console.log('Eliminar usuario:', user);
+    const confirmDelete = confirm('¿Estás seguro de que deseas eliminar este usuario?');
+    if (!confirmDelete) return;
+  
+    this.userService.deleteUser(user.id).subscribe({
+      next: () => {
+        this.users = this.users.filter(e => e.id !== user.id);
+        alert('Usuario eliminado con éxito.');
+      },
+      error: (err) => {
+        console.error('Error al eliminar usuario:', err);
+        alert('Ocurrió un error al intentar eliminar el usuario.');
+      }
+    });
   }
 
 }

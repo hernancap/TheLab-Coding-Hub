@@ -5,12 +5,12 @@
       <mat-form-field appearance="fill">
         <mat-label>Usuario</mat-label>
         <mat-icon matPrefix>person</mat-icon>
-        <input 
-          matInput 
-          type="text" 
-          id="username" 
-          name="username" 
-          [(ngModel)]="username" 
+        <input
+          matInput
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
           required
         />
       </mat-form-field>
@@ -18,12 +18,12 @@
       <mat-form-field appearance="fill">
         <mat-icon matPrefix>lock</mat-icon>
         <mat-label>Contraseña</mat-label>
-        <input 
-          matInput 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="password" 
+        <input
+          matInput
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
           required
         />
       </mat-form-field>
@@ -32,6 +32,14 @@
         Ingresar
       </button>
     </form>
+
+    <button 
+      class="register-button" 
+      mat-raised-button 
+      color="accent" 
+      (click)="goToRegister()">
+      Crear nueva cuenta
+    </button>
 
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}

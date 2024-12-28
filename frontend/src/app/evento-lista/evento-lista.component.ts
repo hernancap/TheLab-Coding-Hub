@@ -15,7 +15,10 @@ export class EventoListaComponent {
   events: Event[] = [];
   errorMessage: string = '';
 
-  constructor(private eventoService: EventoService, private router: Router) {}
+  constructor(
+    private eventoService: EventoService, 
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.getEvents();

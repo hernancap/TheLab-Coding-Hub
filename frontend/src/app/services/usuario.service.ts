@@ -16,12 +16,24 @@ export class UsuarioService {
     return this.http.post(`${this.url}/login`, { username, password });
   }
 
-  register(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.url}/register`, { username, password });
+  registerUser(user: any): Observable<any> {
+    return this.http.post(`${this.url}/register`, user);
   }
 
   getAllUsers(): Observable<any> {
     return this.http.get(this.url);
+  }
+
+  getUserById(id: number): Observable<any> {
+    return this.http.get(`${this.url}/${id}`);
+  }
+
+  updateUser(id: number, user: any): Observable<any> {
+    return this.http.put(`${this.url}/${id}`, user);
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.url}/${id}`);
   }
 
 }

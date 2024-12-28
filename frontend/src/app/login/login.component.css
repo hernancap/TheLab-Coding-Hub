@@ -44,3 +44,19 @@ button:hover {
   font-size: 14px;
   text-align: center;
 }
+
+.register-button {
+  font-size: 0.875rem; 
+  color: #6c757d; 
+  padding: 5px 10px;
+  text-transform: none;
+  margin-top: 40px; 
+  align-self: flex-start;
+  background-color: transparent; 
+  border: none; 
+}
+
+.register-button:hover {
+  color: #343a40;
+  background-color: transparent;
+}

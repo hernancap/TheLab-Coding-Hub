@@ -29,7 +29,10 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+  constructor(
+    private usuarioService: UsuarioService, 
+    private router: Router,
+  ) {}
 
   onSubmit() {
     this.usuarioService.login(this.username, this.password).subscribe({
@@ -44,4 +47,9 @@ export class LoginComponent {
       },
     });
   }
+
+  goToRegister() {
+    this.router.navigate(['/users/add/from-login', { fromLogin: true }]);
+  }  
+  
 }

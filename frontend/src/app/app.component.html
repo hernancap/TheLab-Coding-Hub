@@ -1,1 +1,5 @@
-<app-login></app-login>
+<app-header *ngIf="showHeader"></app-header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>

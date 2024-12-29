@@ -3,6 +3,7 @@ import { EventoService } from '../services/evento.service';
 import { Event } from '../model/evento';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-evento-lista',
@@ -14,11 +15,15 @@ import { Router } from '@angular/router';
 export class EventoListaComponent {
   events: Event[] = [];
   errorMessage: string = '';
+  userRole: string = '';
 
   constructor(
     private eventoService: EventoService, 
     private router: Router,
-  ) {}
+    private authService: AuthService
+  ) {
+    this.userRole = this.authService.getUserRole() ?? 'guest';
+  }
 
   ngOnInit() {
     this.getEvents();

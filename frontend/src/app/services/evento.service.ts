@@ -8,10 +8,9 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class EventoService {
-  private url : string;
-  constructor(private http: HttpClient) {
-    this.url = `${environment.api}/events`;
-  }
+  private url = `${environment.api}/events`;
+  
+  constructor(private http: HttpClient) {}
 
   getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(this.url);

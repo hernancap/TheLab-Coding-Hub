@@ -7,21 +7,20 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class UsuarioService {
-  private url : string;
-  constructor(private http: HttpClient) {
-    this.url = `${environment.api}/users`;
-  }
+  private url = `${environment.api}/users`;
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.url}/login`, { username, password });
-  }
+  constructor(private http: HttpClient) {}
 
   registerUser(user: any): Observable<any> {
     return this.http.post(`${this.url}/register`, user);
   }
 
   getAllUsers(): Observable<any> {
-    return this.http.get(this.url);
+    const token = localStorage.getItem('token'); 
+    const headers = {
+      Authorization: `Bearer ${token}` 
+    };
+    return this.http.get(this.url, { headers });
   }
 
   getUserById(id: number): Observable<any> {

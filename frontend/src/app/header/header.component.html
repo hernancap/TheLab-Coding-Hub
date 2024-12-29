@@ -1,0 +1,10 @@
+<header>
+    <nav>
+      <ul>
+        <li><a routerLink="/events">Eventos</a></li>
+        <li *ngIf="userRole === 'admin'"><a routerLink="/users">Usuarios</a></li>
+        <li><a (click)="logout()">Salir</a></li>
+      </ul>
+    </nav>
+  </header>
+  

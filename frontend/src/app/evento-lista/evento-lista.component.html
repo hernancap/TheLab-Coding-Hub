@@ -1,6 +1,6 @@
 <div>
   <h1>Lista de Eventos:</h1>
-  <button (click)="navigateToAddEvent()" class="add-event-button">Agregar Evento</button>
+  <button (click)="navigateToAddEvent()"  *ngIf="userRole === 'admin'" class="add-event-button">Agregar Evento</button>
   
   <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
@@ -10,7 +10,7 @@
         <th>Nombre</th>
         <th>Descripción</th>
         <th style="width: 120px;">Fecha</th>
-        <th style="width: 150px;">Acciones</th>
+        <th style="width: 150px;" *ngIf="userRole === 'admin'">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -18,7 +18,7 @@
         <td>{{ event.title }}</td>
         <td>{{ event.description }}</td>
         <td>{{ event.date }}</td>
-        <td>
+        <td *ngIf="userRole === 'admin'"> 
           <button (click)="onEdit(event)">Editar</button>
           <button (click)="onDelete(event)">Borrar</button>
         </td>

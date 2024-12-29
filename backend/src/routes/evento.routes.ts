@@ -1,12 +1,13 @@
 import express, { Router } from 'express';
 import { createEvent, getAllEvents, updateEvent, deleteEvent, getEvent } from '../controllers/evento.controller.js';
+import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware.js';
 
 const eventoRouter: Router = express.Router();
 
-eventoRouter.post('/', createEvent);
+eventoRouter.post('/', authenticateToken, authorizeRole('admin'), createEvent);
 eventoRouter.get('/', getAllEvents);
-eventoRouter.put('/:id', updateEvent);
-eventoRouter.delete('/:id', deleteEvent);
-eventoRouter.get('/:id', getEvent);
+eventoRouter.put('/:id', authenticateToken, authorizeRole('admin'), updateEvent);
+eventoRouter.delete('/:id', authenticateToken, authorizeRole('admin'), deleteEvent);
+eventoRouter.get('/:id', authenticateToken, authorizeRole('admin'), getEvent);
 
 export default eventoRouter;

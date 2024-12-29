@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { UsuarioService } from '../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,14 +30,14 @@ export class LoginComponent {
   errorMessage: string = '';
 
   constructor(
-    private usuarioService: UsuarioService, 
     private router: Router,
+    private authService: AuthService
   ) {}
 
   onSubmit() {
-    this.usuarioService.login(this.username, this.password).subscribe({
+    this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        console.log('Login exitoso: ', response);
+        this.authService.setToken(response.token);
         this.errorMessage = '';
         this.router.navigate(['/events']);
       },

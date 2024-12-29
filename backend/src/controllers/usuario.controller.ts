@@ -1,8 +1,18 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+
+const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
 
 const users = [
     { id: 1, username: 'admin', password: '123456', email: 'test@test.com', role: 'admin' },
+    { id: 2, username: 'user', password: 'password', email: 'user@test.com', role: 'user' },
 ];
+
+const generateToken = (user: { id: number; username: string; role: string }) => {
+    return jwt.sign({ id: user.id, username: user.username, role: user.role }, SECRET_KEY, {
+        expiresIn: '1h',
+    });
+};
 
 export const registerUser = (req: Request, res: Response): void => {
     const { username, password, email, role = 'user' } = req.body;
@@ -24,14 +34,20 @@ export const loginUser = (req: Request, res: Response): void => {
         return;
     }
 
-    if (username === 'admin' && password === '12345') {
-        res.status(200).json({ 
-            message: 'Login exitoso!', 
-            token: 'fake-jwt-token' 
-        });
-    } else {
+    const user = users.find((u) => u.username === username && u.password === password);
+
+    if (!user) {
         res.status(401).json({ message: 'Usuario o contraseña inválidos.' });
+        return;
     }
+
+    const token = generateToken(user);
+
+    res.status(200).json({
+        message: 'Login exitoso!',
+        token,
+    });
+
 };
 
 export const getAllUsers = (req: Request, res: Response): void => {

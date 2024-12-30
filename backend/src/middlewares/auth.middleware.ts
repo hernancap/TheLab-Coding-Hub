@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-const SECRET_KEY = process.env.JWT_SECRET || 'secret-key'; 
+dotenv.config();
+
+const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("Falta configurar el secret de JWT");
+  }
 
 interface AuthenticatedRequest extends Request {
   user?: any; 
@@ -16,7 +22,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
     return; 
   }
 
-  jwt.verify(token, SECRET_KEY, (err, user) => {
+  jwt.verify(token, secret, (err, user) => {
     if (err) {
       res.status(403).json({ message: 'Token inválido' }); 
       return; 

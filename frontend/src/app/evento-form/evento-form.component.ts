@@ -54,6 +54,7 @@ export class EventoFormComponent implements OnInit {
       title: ['', Validators.required],
       description: ['', Validators.required],
       date: ['', [Validators.required]],
+      available_slots: ['', [Validators.required, Validators.min(0)]],
     });
 
     if (this.isEditing) {

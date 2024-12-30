@@ -5,7 +5,7 @@ import { authenticateToken, authorizeRole } from '../middlewares/auth.middleware
 const eventoRouter: Router = express.Router();
 
 eventoRouter.post('/', authenticateToken, authorizeRole('admin'), createEvent);
-eventoRouter.get('/', getAllEvents);
+eventoRouter.get('/', authenticateToken, getAllEvents);
 eventoRouter.put('/:id', authenticateToken, authorizeRole('admin'), updateEvent);
 eventoRouter.delete('/:id', authenticateToken, authorizeRole('admin'), deleteEvent);
 eventoRouter.get('/:id', authenticateToken, authorizeRole('admin'), getEvent);

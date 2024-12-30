@@ -19,6 +19,11 @@
       <mat-datepicker #picker panelClass="custom-datepicker-theme"></mat-datepicker>
     </mat-form-field>
 
+    <mat-form-field appearance="fill">
+      <mat-label>Cupos Disponibles:</mat-label>
+      <input matInput id="available_slots" formControlName="available_slots" type="number" />
+    </mat-form-field>
+
     <div *ngIf="errorMessage" class="error-message">
       <span>{{ errorMessage }}</span>
     </div>

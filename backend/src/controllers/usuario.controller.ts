@@ -1,101 +1,137 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import Usuario from '../models/usuario';
 
-const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
+dotenv.config();
 
-const users = [
-    { id: 1, username: 'admin', password: '123456', email: 'test@test.com', role: 'admin' },
-    { id: 2, username: 'user', password: 'password', email: 'user@test.com', role: 'user' },
-];
+const secret = process.env.JWT_SECRET;
+if (!secret) {
+  throw new Error('Falta configurar el secret de JWT');
+}
 
 const generateToken = (user: { id: number; username: string; role: string }) => {
-    return jwt.sign({ id: user.id, username: user.username, role: user.role }, SECRET_KEY, {
-        expiresIn: '1h',
-    });
+  return jwt.sign({ id: user.id, username: user.username, role: user.role }, secret, {
+    expiresIn: '1h',
+  });
 };
 
-export const registerUser = (req: Request, res: Response): void => {
-    const { username, password, email, role = 'user' } = req.body;
+export const registerUser = async (req: Request, res: Response): Promise<void> => {
+  const { username, password, email, role = 'user' } = req.body;
 
-    if (!username || !password) {
-        res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
-        return;
+  if (!username || !password) {
+    res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
+    return;
+  }
+
+  try {
+    const existingUser = await Usuario.findOne({ where: { username } });
+    if (existingUser) {
+      res.status(400).json({ message: 'El nombre de usuario ya está en uso.' });
+      return;
     }
-    
-    users.push({ id: users.length + 1, username, email, password, role });
-    res.status(201).json({ message: `Usuario ${username} registrado!` });
+
+    const newUser = await Usuario.create({ username, password, email, role });
+    res.status(201).json({ message: `Usuario ${username} registrado!`, user: newUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al registrar el usuario' });
+  }
 };
 
-export const loginUser = (req: Request, res: Response): void => {
-    const { username, password } = req.body;
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+  const { username, password } = req.body;
 
-    if (!username || !password) {
-        res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
-        return;
-    }
+  if (!username || !password) {
+    res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
+    return;
+  }
 
-    const user = users.find((u) => u.username === username && u.password === password);
+  try {
+    const user = await Usuario.findOne({ where: { username, password } });
 
     if (!user) {
-        res.status(401).json({ message: 'Usuario o contraseña inválidos.' });
-        return;
+      res.status(401).json({ message: 'Usuario o contraseña inválidos.' });
+      return;
     }
 
     const token = generateToken(user);
-
-    res.status(200).json({
-        message: 'Login exitoso!',
-        token,
-    });
-
+    res.status(200).json({ message: 'Login exitoso!', token, id: user.id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al iniciar sesión' });
+  }
 };
 
-export const getAllUsers = (req: Request, res: Response): void => {
-    const { role } = req.body;
-
+export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const users = await Usuario.findAll();
     res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener los usuarios' });
+  }
 };
 
-export const getUser = (req: Request, res: Response): void => {
-    const { id } = req.params;
+export const getUser = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
 
-    const user = users.find(u => u.id === parseInt(id));
+  try {
+    const user = await Usuario.findByPk(id);
 
     if (!user) {
-        res.status(404).json({ message: 'Usuario no encontrado.' });
-        return;
+      res.status(404).json({ message: 'Usuario no encontrado.' });
+      return;
     }
 
     res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener el usuario' });
+  }
 };
 
-export const updateUser = (req: Request, res: Response): void => {
-    const { id } = req.params;
-    const { username, password, email } = req.body;
-    const user = users.find(u => u.id === parseInt(id));
+export const updateUser = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const { username, password, email } = req.body;
+
+  try {
+    const user = await Usuario.findByPk(id);
 
     if (!user) {
-        res.status(404).json({ message: 'Usuario no encontrado.' });
-        return;
+      res.status(404).json({ message: 'Usuario no encontrado.' });
+      return;
     }
 
     user.username = username || user.username;
     user.password = password || user.password;
     user.email = email || user.email;
 
-    res.status(200).json({ message: `Usuario ${id} actualizado!` });
+    await user.save();
+
+    res.status(200).json({ message: `Usuario ${id} actualizado!`, user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar el usuario' });
+  }
 };
 
-export const deleteUser = (req: Request, res: Response): void => {
-    const { id } = req.params;
-    
-    const userIndex = users.findIndex(u => u.id === parseInt(id));
+export const deleteUser = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
 
-    if (userIndex === -1) {
-        res.status(404).json({ message: 'Usuario no encontrado.' });
-        return;
+  try {
+    const user = await Usuario.findByPk(id);
+
+    if (!user) {
+      res.status(404).json({ message: 'Usuario no encontrado.' });
+      return;
     }
 
-    users.splice(userIndex, 1);
+    await user.destroy();
+
     res.status(200).json({ message: `Usuario ${id} eliminado!` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al eliminar el usuario' });
+  }
 };

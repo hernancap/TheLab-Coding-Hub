@@ -1,88 +1,91 @@
 import { Request, Response } from 'express';
+import Event from '../models/evento';
 
-type Event = {
-    id: number;
-    title: string;
-    description: string;
-    date: string; 
-};
+export const createEvent = async (req: Request, res: Response) => {
+    try {
+        const { title, description, date, available_slots } = req.body;
 
-const events: Event[] = [
-    { id: 1, title: 'Event 1', description: 'Description 1', date: '2024-12-20' },
-    { id: 2, title: 'Event 2', description: 'Description 2', date: '2024-12-22' },
-];
+        if (!title || !description || !date || !available_slots) {
+            res.status(400).json({ message: 'Todos los campos son requeridos' });
+            return;
+        }
 
-export const createEvent = (req: Request, res: Response): void => {
-    const { title, description, date } = req.body;
+        const newEvent = await Event.create({ title, description, date, available_slots });
 
-    if (!title || !description || !date) {
-        res.status(400).json({ message: 'Todos los campos son requeridos' });
-        return;
+        res.status(201).json({ message: `Evento "${title}" creado!`, event: newEvent });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al crear el evento', error });
     }
-
-    const newEvent: Event = {
-        id: events.length + 1, 
-        title,
-        description,
-        date,
-    };
-    events.push(newEvent);
-
-    res.status(201).json({ message: `Evento "${title}" creado!`, event: newEvent });
 };
 
-export const getAllEvents = (req: Request, res: Response): void => {
-    res.status(200).json(events);
+export const getAllEvents = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const events = await Event.findAll(); 
+        res.status(200).json(events);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los eventos', error });
+    }
 };
 
-export const updateEvent = (req: Request, res: Response): void => {
+export const updateEvent = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
-    const { title, description, date } = req.body;
+    const { title, description, date, available_slots } = req.body;
 
-    const event = events.find(event => event.id === parseInt(id));
+    try {
+        const event = await Event.findByPk(id); 
 
-    if (!event) {
-        res.status(404).json({ message: 'Evento no encontrado' });
-        return;
+        if (!event) {
+            res.status(404).json({ message: 'Evento no encontrado' });
+            return;
+        }
+
+        if (!title || !description || !date) {
+            res.status(400).json({ message: 'Todos los campos son requeridos' });
+            return;
+        }
+
+        await event.update({ title, description, date, available_slots }); 
+
+        res.status(200).json({ message: `Evento "${title}" actualizado!`, event });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al actualizar el evento', error });
     }
-
-    if (!title || !description || !date) {
-        res.status(400).json({ message: 'Todos los campos son requeridos' });
-        return;
-    }
-
-    event.title = title;
-    event.description = description;
-    event.date = date;
-
-    res.status(200).json({ message: `Evento "${title}" actualizado!`, event });
 };
 
-export const deleteEvent = (req: Request, res: Response): void => {
+export const deleteEvent = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
 
-    const eventIndex = events.findIndex(event => event.id === parseInt(id));
+    try {
+        const event = await Event.findByPk(id);
 
-    if (eventIndex === -1) {
-        res.status(404).json({ message: 'Evento no encontrado' });
-        return;
+        if (!event) {
+            res.status(404).json({ message: 'Evento no encontrado' });
+            return;
+        }
+
+        await event.destroy(); 
+
+        res.status(200).json({ message: `Evento "${event.title}" eliminado!` });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al eliminar el evento', error });
     }
-
-    const deletedEvent = events.splice(eventIndex, 1);
-
-    res.status(200).json({ message: `Evento "${deletedEvent[0].title}" eliminado!` });
 };
 
-export const getEvent = (req: Request, res: Response): void => {
+export const getEvent = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
 
-    const event = events.find(event => event.id === parseInt(id));
+    try {
+        const event = await Event.findByPk(id); 
 
-    if (!event) {
-        res.status(404).json({ message: 'Evento no encontrado' });
-        return;
+        if (!event) {
+            res.status(404).json({ message: 'Evento no encontrado' });
+            return;
+        }
+
+        res.status(200).json(event);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener el evento', error });
     }
-
-    res.status(200).json(event);
 };
+
 

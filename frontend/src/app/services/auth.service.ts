@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 
 interface LoginResponse {
   token: string;
+  id: string;
 } 
 
 @Injectable({
@@ -21,6 +22,9 @@ export class AuthService {
       tap((response) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
+        }
+        if(response.id){
+          localStorage.setItem('userId', response.id);
         }
       })
     );

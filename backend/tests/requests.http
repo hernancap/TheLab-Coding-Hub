@@ -62,3 +62,12 @@ DELETE http://localhost:3000/api/events/1
 
 ### Obtener un evento
 GET http://localhost:3000/api/events/1
+
+### Create inscripciones
+POST http://localhost:3000/api/inscripciones/
+Content-Type: application/json
+
+{
+  "id_usuario": 1,
+  "id_evento": 1
+}

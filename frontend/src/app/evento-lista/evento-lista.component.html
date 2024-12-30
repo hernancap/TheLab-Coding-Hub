@@ -4,30 +4,48 @@
   
   <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-  <table *ngIf="events && events.length > 0; else noEventos" class="event-table">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th style="width: 120px;">Fecha</th>
-        <th style="width: 150px;" *ngIf="userRole === 'admin'">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let event of events">
-        <td>{{ event.title }}</td>
-        <td>{{ event.description }}</td>
-        <td>{{ event.date }}</td>
-        <td *ngIf="userRole === 'admin'"> 
-          <button (click)="onEdit(event)">Editar</button>
-          <button (click)="onDelete(event)">Borrar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<table *ngIf="events && events.length > 0; else noEventos" class="event-table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th style="width: 120px;">Cupos disponibles</th>
+      <th style="width: 120px;">Fecha</th>
+      <th style="width: 150px;" *ngIf="userRole === 'admin'">Acciones</th>
+      <th style="width: 150px;">Inscribirse</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of events">
+      <td>{{ event.title }}</td>
+      <td>{{ event.description }}</td>
+      <td>{{ event.available_slots }}</td>
+      <td>{{ event.date }}</td>
+      <td *ngIf="userRole === 'admin'">
+        <button (click)="onEdit(event)" class="edit-button">Editar</button>
+        <button (click)="onDelete(event)" class="delete-button">Borrar</button>
+      </td>
+      <td>
+        <button 
+          *ngIf="!isUserInscribed(event)" 
+          (click)="inscribeToEvent(event)"
+          class="subscribe-button"
+        >
+          Inscribirse
+        </button>
+        <button 
+          *ngIf="isUserInscribed(event)" 
+          (click)="cancelInscription(event)"
+          class="unsubscribe-button"
+        >
+          Cancelar inscripción
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-  <ng-template #noEventos>
-    <p>No hay eventos disponibles.</p>
-  </ng-template>
+<ng-template #noEventos>
+  <p>No hay eventos disponibles.</p>
+</ng-template>
 </div>
-  

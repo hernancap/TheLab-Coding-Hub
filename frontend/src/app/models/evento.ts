@@ -3,6 +3,6 @@ export interface Event {
     title: string;
     description?: string;
     date: string;
-    capacity: number;
+    available_slots: number;
   }
   

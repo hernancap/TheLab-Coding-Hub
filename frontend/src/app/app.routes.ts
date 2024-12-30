@@ -10,7 +10,7 @@ export const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'users/login', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'events', component: EventoListaComponent },
+  { path: 'events', component: EventoListaComponent, canActivate: [AuthGuard] },
   { path: 'events/edit/:id', component: EventoFormComponent, canActivate: [AuthGuard], data: { expectedRole: 'admin' } },
   { path: 'events/add', component: EventoFormComponent, canActivate: [AuthGuard], data: { expectedRole: 'admin' } },
   { path: 'users', component: UsuarioListaComponent, canActivate: [AuthGuard], data: { expectedRole: 'admin' } },

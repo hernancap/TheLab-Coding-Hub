@@ -20,7 +20,7 @@
       <td>{{ event.title }}</td>
       <td>{{ event.description }}</td>
       <td>{{ event.available_slots }}</td>
-      <td>{{ event.date }}</td>
+      <td>{{ event.date | date: 'dd-MM-yyyy' }}</td>
       <td *ngIf="userRole === 'admin'">
         <button (click)="onEdit(event)" class="edit-button">Editar</button>
         <button (click)="onDelete(event)" class="delete-button">Borrar</button>
